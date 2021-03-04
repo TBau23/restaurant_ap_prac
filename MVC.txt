@@ -1,0 +1,3 @@
+Model - code that accesses database
+View - templates, what the client sees
+Controller - in between layer, get data to put in template
