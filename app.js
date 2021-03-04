@@ -13,6 +13,9 @@ const routes = require('./routes/index');
 const helpers = require('./helpers');
 const errorHandlers = require('./handlers/errorHandlers');
 
+// EVERYTHING IN THIS FILE IS SEQUENTIAL - setting up app, all the middleware before accessing routes
+// after routes comes error handling - the order is intentional 
+
 // create our Express app
 const app = express();
 
@@ -24,7 +27,7 @@ app.set('view engine', 'pug'); // we use the engine pug, mustache or EJS work gr
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Takes the raw requests and turns them into usable properties on req.body ! Express maintains body-parser
-app.use(bodyParser.json());
+app.use(bodyParser.json()); // anytime someone submits data via a form, that data will exist on req.body
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Exposes a bunch of methods for validating data. Used heavily on userController.validateRegister
@@ -34,7 +37,7 @@ app.use(expressValidator()); // app.use is for setting up global middleware, run
 app.use(cookieParser());
 
 // Sessions allow us to store data on visitors from request to request 
-// This keeps users logged in and allows us to send flash messages
+// This keeps users logged in and allows us to send flash messages 
 app.use(session({
   secret: process.env.SECRET,
   key: process.env.KEY,
@@ -67,6 +70,7 @@ app.use((req, res, next) => {
 
 // After allllll that above middleware, we finally handle our own routes!
 app.use('/', routes); // any time someone goes to forward slash with anything after it, it routes through here
+// sends users to routes file, where more specific routes branch off from 
 
 // If that above routes didnt work, we 404 them and forward to error handler
 app.use(errorHandlers.notFound);

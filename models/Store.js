@@ -1,19 +1,23 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); // allows us to interface with mongoDB
 mongoose.Promise = global.Promise; // setting the mongoose Promise property to be equivalent to the native Promise object (ES6 promises)
 const slug = require('slugs');
+
+
+// this schema aligns with the fields being created on the _storeForm.pug file
+// by default we our using strict schema - only picks up fields that have been defined
 
 const storeSchema = new mongoose.Schema({
     name: {
         type: String,
-        trim: true, // do data normalization as close to the model as possible
-        required: 'Please enter a store name!',
+        trim: true, // do data normalization as close to the model as possible - this takes out whitespace
+        required: 'Please enter a store name!', // acts like passing true and gives presentable error message
     },
     slug: String, // auto generated
     description: {
         type: String,
         trim: true,
     },
-    tags: [String]
+    tags: [String] // lines up with name on each chechbox
 });
 
 storeSchema.pre('save', function(next) {
@@ -22,9 +26,11 @@ storeSchema.pre('save', function(next) {
         return;
     }
     this.slug = slug(this.name) // set slug property to be equal to whatever the output of the slug is 
-    // cant use arrow functions with this keyword, hence the function declaration
+    // cant use arrow functions with 'this' keyword, hence the function declaration
     next();
     // TODO: make slugs more resilient so that they are unique 
+    // the slug is like the url specification - e.g. dangThatsDelish.com/storeName
+    // when you make a new store we want to generate a slug that will link to that store automatically
 
 });
 

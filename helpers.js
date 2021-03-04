@@ -27,3 +27,6 @@ exports.menu = [
   { slug: '/add', title: 'Add', icon: 'add', },
   { slug: '/map', title: 'Map', icon: 'map', },
 ];
+
+
+// this file is being used as a dump for content that is needed by several different templates

@@ -20,7 +20,7 @@ mongoose.connection.on('error', (err) => {
 // READY?! Let's go!
 
 // import all of our models
-// mongoDB uses a 'singleton'
+// mongoDB uses a 'singleton' - once it is configured once the models are available everywhere
 require('./models/Store');
 
 
