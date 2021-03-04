@@ -54,6 +54,7 @@ app.use(passport.session());
 app.use(flash());
 
 // pass variables to our templates + all requests
+// locals are all the variables available in our templates
 app.use((req, res, next) => {
   res.locals.h = helpers; // this is where the h variable we see in files like the pug layout getting set up
   res.locals.flashes = req.flash();
