@@ -17,7 +17,26 @@ const storeSchema = new mongoose.Schema({
         type: String,
         trim: true,
     },
-    tags: [String] // lines up with name on each chechbox
+    tags: [String], // lines up with name on each chechbox
+    created: {
+        type: Date,
+        default: Date.now
+    },
+    location: {
+        // storing data as a point - lat and long
+        type: {
+            type: String,
+            default: 'Point',
+        },
+        coordinates: [{
+            type: Number,
+            required: "You must give coordinates"
+        }],
+        address: {
+            type: String,
+            required: "You must supply an address!"
+        }
+    }
 });
 
 storeSchema.pre('save', function(next) {
